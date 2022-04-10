@@ -4,6 +4,8 @@ class Pokemon(object):
 
     def __init__(self):
         self.name = None
+        self.first_evolv = None
+        self.second_evolv = None
         self.pokedex = None
         self.maxlebenspunkte = 60
         self.lebenspunkte = self.maxlebenspunkte
@@ -19,13 +21,13 @@ class Pokemon(object):
             self.level += 1
             self.lebenspunkte = int(self.lebenspunkte+1.03**self.level)
             print(f"{self.name} erreicht Level: {self.level}")
-            if self.level == 20:
+            if self.level == 20 and self.first_evolv != None:
                 print(f"Hey! {self.name} entwickelt sich zu: ")
-                self.name = "Schillok"
+                self.name = self.first_evolv
                 print(self.name)
-            elif self.level == 40:
+            elif self.level == 40 and self.first_evolv != None:
                 print(f"Hey! {self.name} entwickelt sich zu: ")
-                self.name = "Turtok"
+                self.name = self.second_evolv
                 print(self.name)
         else:
             print(f"{self.name} hat bereits die höchste Levelstufe: {self.level} erreicht.")
@@ -39,18 +41,6 @@ class Pokemon(object):
         if pos <= possibility:
             return True
         return False
-
-    def entwickeln(self):
-        if self.level == 20 and self.name == "Schiggy":
-            print(f"{self.name} hat sich entwickelt zu: ")
-            self.name = "Schillok"
-            print(self.name)
-        elif self.level == 40 and self.name == "Schillok":
-            print(f"{self.name} hat sich entwickelt zu: ")
-            self.name = "Turtok"
-            print(self.name)
-        else:
-            print(f"{self.name} ist noch nicht soweit, sich zu entwickeln.")
 
     def trank(self):
         if self.lebenspunkte>=self.maxlebenspunkte:

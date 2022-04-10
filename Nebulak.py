@@ -4,6 +4,9 @@ class Nebulak(Pokemon):
     def __init__(self):
         super().__init__()
         self.name = "Nebulak"
+        self.first_evolv = "Alpollo"
+        self.second_evolv = "Gengar"
+        self.pokedex = 92
         self.geisterball_att = 6
 
     def geisterball(self,Pokemon):
