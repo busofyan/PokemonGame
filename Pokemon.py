@@ -11,7 +11,50 @@ class Pokemon(object):
         self.lebenspunkte = self.maxlebenspunkte
         self.trainer = None
         self.level = 1
-        self.angriffswert = 1.2
+        self.angriffswert = 1
+        self.maxerfahrung = 3
+        self.erfahrung = 0
+
+    def __del__(self):
+        print(f"Du hast {self.name} gelöscht.")
+
+    def attack(self,attackname,Pokemon,hitPos,angriffswert):
+        if Pokemon==self:
+            print (f"{self.name} kann sich nicht selbst angreifen.")
+        elif Pokemon.lebenspunkte <= 0:
+            print(f"Du kannst nicht angreifen. {Pokemon.name} wurde schon besiegt.")
+        elif self.lebenspunkte <= 0:
+            print(f"Du kannst nicht angreifen. Dein Pokemon {self.name} wurde besiegt.")
+        else:
+            if self.hitPos(hitPos) == True:
+                print(f"{self.name} attakiert {Pokemon.name} mit {attackname} und verursacht {int(self.angriffswert*angriffswert)} Schaden:")
+                Pokemon.lebenspunkte = Pokemon.lebenspunkte - int(self.angriffswert*angriffswert)
+                if Pokemon.lebenspunkte > 0:
+                    print(f"{Pokemon.name} hat noch {Pokemon.lebenspunkte} Lebenspunkte.")
+                else:
+                    Pokemon.lebenspunkte = 0
+                    print(f"{Pokemon.name} wurde besiegt.")
+                    self.erfahrung+=1
+                    print(f"{self.name} erhält einen Erfahrungspunkt.")
+                    if self.erfahrung==self.maxerfahrung:
+                        self.lvlUp()
+                        self.erfahrung = 0
+            else:
+                print(f"{self.name} hat {Pokemon.name} verfehlt.")
+
+    def schrei(self,Pokemon):
+        if Pokemon==self:
+            print (f"{self.name} kann sich nicht selbst angreifen.")
+        elif Pokemon.lebenspunkte <= 0:
+            print(f"Du kannst nicht angreifen. {Pokemon.name} wurde schon besiegt.")
+        elif self.lebenspunkte <= 0:
+            print(f"Du kannst nicht angreifen. Dein Pokemon {self.name} wurde besiegt.")
+        else:
+            if self.hitPos(95) == True:
+                print(f"{self.name} verwendet Schrei und steigert seinen Angrifsswert um 5.")
+                self.angriffswert = self.angriffswert + 5
+            else:
+                print(f"{self.name} hat mit Schrei verfehlt.")
 
     def changeTrainer(self, trainer):
         self.trainer = trainer
@@ -34,19 +77,10 @@ class Pokemon(object):
 
     def showStats(self):
         print(
-            f"Name: {self.name}\nLevel: {self.level}\nPokedex-Nr: {self.pokedex}\nLebenspunkte: {self.lebenspunkte}\nTrainer: {self.trainer}")
+            f"Name: {self.name}\nLevel: {self.level}\nPokedex-Nr: {self.pokedex}\nLebenspunkte: {self.lebenspunkte}\nErfahrungspunkte: {self.erfahrung}\nTrainer: {self.trainer}")
 
     def hitPos(self, possibility):
         pos = random.randrange(0, 100, 1)
         if pos <= possibility:
             return True
         return False
-
-    def trank(self):
-        if self.lebenspunkte>=self.maxlebenspunkte:
-            print(f"{self.name} hat bereits volle Lebenspunkte.")
-        else:
-            self.lebenspunkte = self.lebenspunkte + int(self.maxlebenspunkte/2)
-            if self.lebenspunkte>=self.maxlebenspunkte:
-                self.lebenspunkte=self.maxlebenspunkte
-            print(f"Du hast {self.name} einen Trank gegeben. {self.name}'s Lebenspunkte betragen {self.lebenspunkte}/{self.maxlebenspunkte}.")
